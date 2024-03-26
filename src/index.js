@@ -22,4 +22,21 @@ function renderTodoList(){
   todoListContainer.innerHTML = todoList
 }
 
-renderTodoList()
+function toggleVisibilityIfListEmpty() {
+  const footer = $(".footer")
+  const main = $(".main")
+
+  if (todos.length <= 0) {
+    footer.style.display = "none"
+    main.style.display = "none"
+  } else {
+    footer.style.display = "block"
+    main.style.display = "block"
+  }
+}
+
+
+(function() {
+  toggleVisibilityIfListEmpty()
+  renderTodoList()
+})()
