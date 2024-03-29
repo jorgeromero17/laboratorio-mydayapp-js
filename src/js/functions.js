@@ -26,7 +26,7 @@ export function renderTodoList(){
     const todoItem = document.createElement("li")
     todoItem.setAttribute("value", todo.id)
     todoItem.className = todo.completed ? "completed" : ""
-    todoItem.addEventListener("dblclick", (e) => handleDoubleClick(e))
+    todoItem.addEventListener("dblclick", (e) => handleDoubleClick(e.target))
 
     const viewDiv = document.createElement("div")
     viewDiv.className = "view"
@@ -71,8 +71,10 @@ function toggleTodoState(id) {
   renderTodoList()
 }
 
-function handleDoubleClick(e) {
-  console.log(e)
+function handleDoubleClick(target) {  
+  const li = target.offsetParent
+  const input = li.childNodes[1]
+  toggleEditingView(li,input,true)
 }
 
 
@@ -91,7 +93,6 @@ export function toggleVisibilityIfListEmpty() {
 
 function addNewTodo() {
   const inputValue = $(".new-todo").value.trim()
-  console.log(inputValue)
 
   if(inputValue.length < 1) {
     return
@@ -107,8 +108,35 @@ function addNewTodo() {
   renderTodoList()
 }
 
+function toggleEditingView(li,input,isEditing) {
+  if(isEditing) {
+    li.classList.remove("view")
+    li.classList.add("editing")
+    input.focus()
+  } else {
+    li.classList.add("view")
+    li.classList.remove("editing")
+    input.blur()
+  }
+}
+
 export function handleKeyPress(event) {
-  if (event.keyCode === 13) {
-    addNewTodo()
+  if (event.key === "Enter") {
+    const mainInput = $(".new-todo")
+    const inputOnFocus = document.activeElement
+    if(inputOnFocus) {
+      if(inputOnFocus === mainInput) {
+        addNewTodo()
+      } else {
+        console.log(inputOnFocus)
+      }
+    }
+  }
+  if (event.key === "Escape") {
+    const li = $(".editing")
+    if(li){
+      const inputOnFocus = document.activeElement
+      toggleEditingView(li,inputOnFocus,false)
+    }
   }
 }
