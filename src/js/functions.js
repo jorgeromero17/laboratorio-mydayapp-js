@@ -26,6 +26,7 @@ export function renderTodoList(){
 
     const destroyButton = document.createElement("button")
     destroyButton.className = "destroy"
+    destroyButton.addEventListener("click", () => handleDestroyTodo(todo.id))
 
     viewDiv.appendChild(toggleInput)
     viewDiv.appendChild(label)
@@ -161,4 +162,11 @@ export function clearCompleted() {
 function updateLocalStorage() {
   const miArrayJSON = JSON.stringify(todos)
   localStorage.setItem('mydayapp-js', miArrayJSON)
+}
+
+function handleDestroyTodo(id) {
+  todos = todos.filter(todo => todo.id != id)
+  renderTodoList()
+  toggleVisibilityIfListEmpty()
+  updateLocalStorage()
 }
