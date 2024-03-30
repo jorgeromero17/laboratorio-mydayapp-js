@@ -1,22 +1,6 @@
 import { $ } from "./utils";
 
-let todos = [
-  {
-    id: 1,
-    title: "Hacer las compras",
-    completed: false
-  },
-  {
-    id: 2,
-    title: "Estudiar programación",
-    completed: true
-  },
-  {
-    id: 3,
-    title: "Ver videos",
-    completed: false
-  },
-]
+let todos = JSON.parse(localStorage.getItem("mydayapp-js")) ?? []
 
 export function renderTodoList(){
   const todoListContainer = $(".todo-list")
@@ -108,6 +92,8 @@ function addNewTodo() {
   todos.push(newTodo)
   renderTodoList()
   renderListCounter()
+  toggleVisibilityIfListEmpty()
+  updateLocalStorage()
 }
 
 function updateTodo(id,input) {
@@ -120,7 +106,7 @@ function updateTodo(id,input) {
   })
   renderTodoList()
   renderListCounter()
-
+  updateLocalStorage()
 }
 
 function toggleEditingView(li,input,isEditing) {
@@ -169,4 +155,10 @@ export function clearCompleted() {
   todos = todos.filter(todo => !todo.completed)
   renderTodoList()
   toggleVisibilityIfListEmpty()
+  updateLocalStorage()
+}
+
+function updateLocalStorage() {
+  const miArrayJSON = JSON.stringify(todos)
+  localStorage.setItem('mydayapp-js', miArrayJSON)
 }
