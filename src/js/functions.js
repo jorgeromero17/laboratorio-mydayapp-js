@@ -164,3 +164,9 @@ export function renderListCounter() {
   const counterIndicator = $(".todo-count")
   counterIndicator.innerHTML = `<strong>${counter}</strong> ${counter > 1 ? "items" : "item" } left`
 }
+
+export function clearCompleted() {
+  todos = todos.filter(todo => !todo.completed)
+  renderTodoList()
+  toggleVisibilityIfListEmpty()
+}
