@@ -85,7 +85,7 @@ function addNewTodo() {
   }
 
   const newTodo = {
-    id: todos.length,
+    id: generateUniqueId(),
     title: inputValue,
     completed: false
   }
@@ -95,6 +95,11 @@ function addNewTodo() {
   renderListCounter()
   toggleVisibilityIfListEmpty()
   updateLocalStorage()
+}
+
+function generateUniqueId() {
+  const timestamp = new Date().getTime();
+  return `${timestamp}`;
 }
 
 function updateTodo(id,input) {
