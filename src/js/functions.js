@@ -21,7 +21,7 @@ let todos = [
 export function renderTodoList(){
   const todoListContainer = $(".todo-list")
   todoListContainer.innerHTML = ""
-
+  console.log(todos)
   todos.forEach(todo => {
     const todoItem = document.createElement("li")
     todoItem.setAttribute("value", todo.id)
@@ -108,6 +108,18 @@ function addNewTodo() {
   renderTodoList()
 }
 
+function updateTodo(id,input) {
+  console.log(id,input)
+  todos = todos.map(todo=>{
+    if(todo.id === id) {
+      todo.title = input.value.trim()
+    }
+    return todo
+  })
+  renderTodoList()
+
+}
+
 function toggleEditingView(li,input,isEditing) {
   if(isEditing) {
     li.classList.remove("view")
@@ -128,7 +140,9 @@ export function handleKeyPress(event) {
       if(inputOnFocus === mainInput) {
         addNewTodo()
       } else {
-        console.log(inputOnFocus)
+        const li = $(".editing")
+        toggleEditingView(li,inputOnFocus,false)
+        updateTodo(li.value,inputOnFocus)
       }
     }
   }
