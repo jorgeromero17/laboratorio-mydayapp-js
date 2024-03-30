@@ -1,5 +1,5 @@
 import "./css/base.css";
-import { renderTodoList, toggleVisibilityIfListEmpty, handleKeyPress } from "./js/functions";
+import { renderTodoList, toggleVisibilityIfListEmpty, handleKeyPress, renderListCounter } from "./js/functions";
 
 
 document.addEventListener("keydown", handleKeyPress);
@@ -7,4 +7,5 @@ document.addEventListener("keydown", handleKeyPress);
 (function() {
   toggleVisibilityIfListEmpty()
   renderTodoList()
+  renderListCounter()
 })()

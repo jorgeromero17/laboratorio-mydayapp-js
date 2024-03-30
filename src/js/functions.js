@@ -21,7 +21,7 @@ let todos = [
 export function renderTodoList(){
   const todoListContainer = $(".todo-list")
   todoListContainer.innerHTML = ""
-  console.log(todos)
+
   todos.forEach(todo => {
     const todoItem = document.createElement("li")
     todoItem.setAttribute("value", todo.id)
@@ -69,6 +69,7 @@ function toggleTodoState(id) {
     return todo
   })
   renderTodoList()
+  renderListCounter()
 }
 
 function handleDoubleClick(target) {  
@@ -106,6 +107,7 @@ function addNewTodo() {
 
   todos.push(newTodo)
   renderTodoList()
+  renderListCounter()
 }
 
 function updateTodo(id,input) {
@@ -117,6 +119,7 @@ function updateTodo(id,input) {
     return todo
   })
   renderTodoList()
+  renderListCounter()
 
 }
 
@@ -153,4 +156,11 @@ export function handleKeyPress(event) {
       toggleEditingView(li,inputOnFocus,false)
     }
   }
+}
+
+export function renderListCounter() {
+  const counter = todos.filter(todo => !todo.completed).length
+
+  const counterIndicator = $(".todo-count")
+  counterIndicator.innerHTML = `<strong>${counter}</strong> ${counter > 1 ? "items" : "item" } left`
 }
