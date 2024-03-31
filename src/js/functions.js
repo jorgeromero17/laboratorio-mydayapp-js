@@ -48,7 +48,7 @@ function toggleTodoState(id) {
     if (todo.id === id) {
       return {
         ...todo,
-        completed: !todo.completed // Cambiar el estado completed
+        completed: !todo.completed
       }
     }
     return todo
@@ -57,10 +57,17 @@ function toggleTodoState(id) {
   renderListCounter()
 }
 
-function handleDoubleClick(target) {  
+function handleDoubleClick(target) {
+  const liEditing = $(".editing")
+  if(liEditing){
+    return
+  }
+
   const li = target.offsetParent
-  const input = li.childNodes[1]
-  toggleEditingView(li,input,true)
+  if(li){
+    const input = li.childNodes[1]
+    toggleEditingView(li,input,true)
+  }
 }
 
 
@@ -103,7 +110,7 @@ function generateUniqueId() {
 }
 
 function updateTodo(id,input) {
-  console.log(id,input)
+  
   todos = todos.map(todo=>{
     if(todo.id === id) {
       todo.title = input.value.trim()
