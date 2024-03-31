@@ -2,7 +2,7 @@ import { $ } from "./utils";
 
 let todos = JSON.parse(localStorage.getItem("mydayapp-js")) ?? []
 
-export function renderTodoList(){
+function renderTodoList(todos){
   const todoListContainer = $(".todo-list")
   todoListContainer.innerHTML = ""
 
@@ -53,7 +53,7 @@ function toggleTodoState(id) {
     }
     return todo
   })
-  renderTodoList()
+  renderTodosByHash(window.location.hash)
   renderListCounter()
   updateLocalStorage()
 }
@@ -99,7 +99,7 @@ function addNewTodo() {
   }
 
   todos.push(newTodo)
-  renderTodoList()
+  renderTodosByHash(window.location.hash)
   renderListCounter()
   toggleVisibilityIfListEmpty()
   updateLocalStorage()
@@ -118,7 +118,7 @@ function updateTodo(id,input) {
     }
     return todo
   })
-  renderTodoList()
+  renderTodosByHash(window.location.hash)
   renderListCounter()
   updateLocalStorage()
 }
@@ -167,7 +167,7 @@ export function renderListCounter() {
 
 export function clearCompleted() {
   todos = todos.filter(todo => !todo.completed)
-  renderTodoList()
+  renderTodosByHash(window.location.hash)
   toggleVisibilityIfListEmpty()
   updateLocalStorage()
 }
@@ -179,7 +179,50 @@ function updateLocalStorage() {
 
 function handleDestroyTodo(id) {
   todos = todos.filter(todo => todo.id != id)
-  renderTodoList()
+  renderTodosByHash(window.location.hash)
+  renderListCounter()
   toggleVisibilityIfListEmpty()
   updateLocalStorage()
+}
+
+export function handleHashChange() {
+  const hash = window.location.hash
+  renderTodosByHash(hash)
+
+}
+
+export function renderTodosByHash(hash) {
+  let todosToShow = [...todos]
+  switch (hash) {
+    case '#/all':
+      renderTodoList(todos)
+      break;
+    case '#/pending':
+      todosToShow = todos.filter(todo => !todo.completed)
+      renderTodoList(todosToShow)
+      break;
+    case '#/completed':
+      todosToShow = todos.filter(todo => todo.completed)
+      renderTodoList(todosToShow)
+      break;
+    default:
+      renderTodoList(todos)
+      break;
+  }
+  toggleClassBasedOnHash(hash)
+}
+
+function  toggleClassBasedOnHash(hash) {
+  // Obtener todos los elementos <a> dentro de la lista con la clase "filters"
+  var anchors = anchors = document.querySelectorAll('.filters a')
+  
+  anchors.forEach(function(anchor) {
+      var href = anchor.getAttribute('href')
+      
+      if (href === hash) {
+          anchor.classList.add('selected')
+      } else {
+          anchor.classList.remove('selected')
+      }
+  });
 }
