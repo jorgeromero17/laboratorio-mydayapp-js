@@ -216,15 +216,26 @@ export function renderTodosByHash(hash) {
 
 function  toggleClassBasedOnHash(hash) {
   // Obtener todos los elementos <a> dentro de la lista con la clase "filters"
-  var anchors = anchors = document.querySelectorAll('.filters a')
-  console.log(hash)
+  const anchors = document.querySelectorAll('.filters a');
+    
+  // Si el hash está vacío o no coincide con ningún href, selecciona el anchor con href "#/all"
+  let hashFound = false;
   anchors.forEach(function(anchor) {
-      var href = anchor.getAttribute('href')
-      
-      if (href === hash) {
-          anchor.classList.add('selected')
-      } else {
-          anchor.classList.remove('selected')
-      }
+    const href = anchor.getAttribute('href');
+    if (href === hash) {
+      anchor.classList.add('selected');
+      hashFound = true;
+    } else {
+      anchor.classList.remove('selected');
+    }
   });
+
+  if (!hashFound) {
+    anchors.forEach(function(anchor) {
+      const href = anchor.getAttribute('href');
+      if (href === '#/all') {
+        anchor.classList.add('selected');
+      }
+    });
+  }
 }
