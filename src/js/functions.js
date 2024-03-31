@@ -86,7 +86,8 @@ export function toggleVisibilityIfListEmpty() {
 }
 
 function addNewTodo() {
-  const inputValue = $(".new-todo").value.trim()
+  const input = $(".new-todo")
+  const inputValue = input.value.trim()
 
   if(inputValue.length < 1) {
     return
@@ -103,6 +104,7 @@ function addNewTodo() {
   renderListCounter()
   toggleVisibilityIfListEmpty()
   updateLocalStorage()
+  input.value = ""
 }
 
 function generateUniqueId() {
@@ -215,7 +217,7 @@ export function renderTodosByHash(hash) {
 function  toggleClassBasedOnHash(hash) {
   // Obtener todos los elementos <a> dentro de la lista con la clase "filters"
   var anchors = anchors = document.querySelectorAll('.filters a')
-  
+  console.log(hash)
   anchors.forEach(function(anchor) {
       var href = anchor.getAttribute('href')
       
