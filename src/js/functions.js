@@ -8,7 +8,7 @@ export function renderTodoList(){
 
   todos.forEach(todo => {
     const todoItem = document.createElement("li")
-    todoItem.setAttribute("value", todo.id)
+    todoItem.setAttribute("data-id", todo.id)
     todoItem.className = todo.completed ? "completed" : ""
     todoItem.addEventListener("dblclick", (e) => handleDoubleClick(e.target))
 
@@ -55,6 +55,7 @@ function toggleTodoState(id) {
   })
   renderTodoList()
   renderListCounter()
+  updateLocalStorage()
 }
 
 function handleDoubleClick(target) {
@@ -144,7 +145,7 @@ export function handleKeyPress(event) {
       } else {
         const li = $(".editing")
         toggleEditingView(li,inputOnFocus,false)
-        updateTodo(li.value,inputOnFocus)
+        updateTodo(li.getAttribute("data-id"),inputOnFocus)
       }
     }
   }
