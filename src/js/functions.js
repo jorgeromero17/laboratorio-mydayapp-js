@@ -1,4 +1,4 @@
-import { $ } from "./utils";
+import { $, cleanButton } from "./utils";
 
 let todos = JSON.parse(localStorage.getItem("mydayapp-js")) ?? []
 
@@ -41,6 +41,8 @@ function renderTodoList(todos){
 
     todoListContainer.appendChild(todoItem)
   });
+
+  renderClearCompletedButton()
 }
 
 function toggleTodoState(id) {
@@ -238,4 +240,9 @@ function  toggleClassBasedOnHash(hash) {
       }
     });
   }
+}
+
+function renderClearCompletedButton() {
+  const anyCompleted = todos.some(todo => todo.completed)
+  cleanButton.style.display = anyCompleted ? "block" : "none";
 }
